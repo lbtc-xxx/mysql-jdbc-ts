@@ -39,6 +39,10 @@ public class TimestampTest {
 
     private void insertRowContainsTimestamp() throws SQLException {
         runner.update(cn, "insert into " + TABLE_NAME + " values (CURRENT_TIMESTAMP)");
+        try (PreparedStatement ps = cn.prepareStatement("insert into " + TABLE_NAME + " values (?)")) {
+            ps.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
+            ps.executeUpdate();
+        }
     }
 
     private void modifyTimestampToDatetime() throws SQLException {
